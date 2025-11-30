@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/v1/api/companies")
 @RequiredArgsConstructor
@@ -18,5 +20,10 @@ public class CompanyController {
     @PostMapping
     public ResponseEntity<CompanyResponseDTO> create(@RequestBody CompanyRequestDTO dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(companyService.create(dto));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<CompanyResponseDTO> update(@PathVariable UUID id, @RequestBody CompanyRequestDTO dto) {
+        return ResponseEntity.ok(companyService.update(id, dto));
     }
 }

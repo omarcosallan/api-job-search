@@ -4,6 +4,7 @@ import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.exceptions.SignatureVerificationException;
 import dev.marcos.api_job_search.dto.error.ProblemDetail;
+import dev.marcos.api_job_search.exception.BusinessException;
 import dev.marcos.api_job_search.exception.ConflictException;
 import dev.marcos.api_job_search.exception.NotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -139,6 +140,20 @@ public class GlobalExceptionHandler {
         );
 
         return ResponseEntity.status(HttpStatus.CONFLICT).body(problem);
+    }
+
+    @ExceptionHandler(BusinessException.class)
+    public ResponseEntity<ProblemDetail> handleBusinessException(
+            BusinessException ex, HttpServletRequest request) {
+
+        ProblemDetail problem = new ProblemDetail(
+                "Business rule violation",
+                ex.getMessage(),
+                HttpStatus.BAD_REQUEST.value(),
+                getRequestPath(request)
+        );
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(problem);
     }
 
     @ExceptionHandler(Exception.class)
