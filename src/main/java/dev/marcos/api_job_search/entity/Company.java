@@ -29,7 +29,8 @@ public class Company {
 
     private String description;
 
-    @OneToOne(mappedBy = "company")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "owner_id")
     private User owner;
 
     @OneToMany(mappedBy = "company", fetch = FetchType.LAZY)
