@@ -36,8 +36,7 @@ public class AuthService {
         return new UserResponseDTO(
                 savedUser.getId(),
                 savedUser.getName(),
-                savedUser.getEmail(),
-                savedUser.getPassword());
+                savedUser.getEmail());
     }
 
     public TokenDTO login(LoginDTO dto) {
