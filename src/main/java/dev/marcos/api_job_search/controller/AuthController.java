@@ -5,6 +5,7 @@ import dev.marcos.api_job_search.dto.user.TokenDTO;
 import dev.marcos.api_job_search.dto.user.UserRequestDTO;
 import dev.marcos.api_job_search.dto.user.UserResponseDTO;
 import dev.marcos.api_job_search.service.AuthService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,12 +22,12 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/register")
-    public ResponseEntity<UserResponseDTO> register(@RequestBody UserRequestDTO dto) {
+    public ResponseEntity<UserResponseDTO> register(@Valid @RequestBody UserRequestDTO dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(authService.register(dto));
     }
 
     @PostMapping("/login")
-    public ResponseEntity<TokenDTO> register(@RequestBody LoginDTO dto) {
+    public ResponseEntity<TokenDTO> register(@Valid @RequestBody LoginDTO dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(authService.login(dto));
     }
 }

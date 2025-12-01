@@ -14,9 +14,15 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -58,16 +64,37 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(problem);
     }
 
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ProblemDetail> handleMethodArgumentNotValid(
+            MethodArgumentNotValidException ex, HttpServletRequest request) {
+
+        Map<String, String> validationErrors = ex.getBindingResult().getFieldErrors().stream().collect(
+                Collectors.toMap(
+                        FieldError::getField,
+                        fieldError ->
+                                Optional.ofNullable(fieldError.getDefaultMessage())
+                                        .orElse("Invalid value")));
+
+        ProblemDetail problem = new ProblemDetail(
+                "Validation error",
+                "One or more fields are invalid",
+                HttpStatus.BAD_REQUEST.value(),
+                getRequestPath(request));
+
+        problem.setProperty("errors", validationErrors);
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(problem);
+    }
+
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public ResponseEntity<ProblemDetail> handleMethodArgumentTypeMismatch(
             MethodArgumentTypeMismatchException ex, HttpServletRequest request) {
 
-        String detail =
-                String.format(
-                        "Parameter '%s' has invalid value '%s'. Expected type: %s",
-                        ex.getName(),
-                        ex.getValue(),
-                        ex.getRequiredType() != null ? ex.getRequiredType().getSimpleName() : "unknown");
+        String detail = String.format(
+                "Parameter '%s' has invalid value '%s'. Expected type: %s",
+                ex.getName(),
+                ex.getValue(),
+                ex.getRequiredType() != null ? ex.getRequiredType().getSimpleName() : "unknown");
 
         ProblemDetail problem = new ProblemDetail(
                 "Invalid parameter",

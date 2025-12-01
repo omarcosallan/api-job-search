@@ -2,7 +2,9 @@ package dev.marcos.api_job_search.controller;
 
 import dev.marcos.api_job_search.dto.company.CompanyRequestDTO;
 import dev.marcos.api_job_search.dto.company.CompanyResponseDTO;
+import dev.marcos.api_job_search.dto.company.CompanyUpdateRequestDTO;
 import dev.marcos.api_job_search.service.CompanyService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,12 +20,12 @@ public class CompanyController {
     private final CompanyService companyService;
 
     @PostMapping
-    public ResponseEntity<CompanyResponseDTO> create(@RequestBody CompanyRequestDTO dto) {
+    public ResponseEntity<CompanyResponseDTO> create(@Valid @RequestBody CompanyRequestDTO dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(companyService.create(dto));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CompanyResponseDTO> update(@PathVariable UUID id, @RequestBody CompanyRequestDTO dto) {
+    public ResponseEntity<CompanyResponseDTO> update(@PathVariable UUID id, @RequestBody CompanyUpdateRequestDTO dto) {
         return ResponseEntity.ok(companyService.update(id, dto));
     }
 }

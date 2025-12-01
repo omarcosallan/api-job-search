@@ -2,6 +2,7 @@ package dev.marcos.api_job_search.mapper;
 
 import dev.marcos.api_job_search.dto.company.CompanyRequestDTO;
 import dev.marcos.api_job_search.dto.company.CompanyResponseDTO;
+import dev.marcos.api_job_search.dto.company.CompanyUpdateRequestDTO;
 import dev.marcos.api_job_search.entity.Company;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
@@ -13,5 +14,5 @@ public interface CompanyMapper {
 
     Company toEntity(CompanyRequestDTO dto);
     CompanyResponseDTO toDTO(Company entity);
-    void updateCompanyFromDto(CompanyRequestDTO dto, @MappingTarget Company company);
+    void updateCompanyFromDto(CompanyUpdateRequestDTO dto, @MappingTarget Company company);
 }

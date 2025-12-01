@@ -2,6 +2,7 @@ package dev.marcos.api_job_search.service;
 
 import dev.marcos.api_job_search.dto.company.CompanyRequestDTO;
 import dev.marcos.api_job_search.dto.company.CompanyResponseDTO;
+import dev.marcos.api_job_search.dto.company.CompanyUpdateRequestDTO;
 import dev.marcos.api_job_search.entity.Company;
 import dev.marcos.api_job_search.entity.User;
 import dev.marcos.api_job_search.exception.ConflictException;
@@ -33,7 +34,7 @@ public class CompanyService {
         return companyMapper.toDTO(savedCompany);
     }
 
-    public CompanyResponseDTO update(UUID id, CompanyRequestDTO dto) {
+    public CompanyResponseDTO update(UUID id, CompanyUpdateRequestDTO dto) {
         User owner = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         Company company = companyRepository.findByIdAndOwnerId(id, owner.getId())
