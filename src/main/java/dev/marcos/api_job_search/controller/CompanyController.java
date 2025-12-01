@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -27,5 +28,15 @@ public class CompanyController {
     @PutMapping("/{id}")
     public ResponseEntity<CompanyResponseDTO> update(@PathVariable UUID id, @RequestBody CompanyUpdateRequestDTO dto) {
         return ResponseEntity.ok(companyService.update(id, dto));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<CompanyResponseDTO>> findAll() {
+        return ResponseEntity.ok(companyService.findAll());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<CompanyResponseDTO> findById(@PathVariable UUID id) {
+        return ResponseEntity.ok(companyService.findById(id));
     }
 }

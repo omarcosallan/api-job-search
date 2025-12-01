@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -44,5 +45,16 @@ public class CompanyService {
 
         Company savedCompany = companyRepository.save(company);
         return companyMapper.toDTO(savedCompany);
+    }
+
+    public List<CompanyResponseDTO> findAll() {
+        return companyRepository.findAll().stream().map(companyMapper::toDTO).toList();
+    }
+
+    public CompanyResponseDTO findById(UUID id) {
+        Company company = companyRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Company not found with id: " + id));
+
+        return companyMapper.toDTO(company);
     }
 }
