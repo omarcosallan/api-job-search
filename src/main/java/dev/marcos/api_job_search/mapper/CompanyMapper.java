@@ -13,6 +13,8 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 public interface CompanyMapper {
 
     Company toEntity(CompanyRequestDTO dto);
+    Company toEntity(CompanyResponseDTO dto);
     CompanyResponseDTO toDTO(Company entity);
+
     void updateCompanyFromDto(CompanyUpdateRequestDTO dto, @MappingTarget Company company);
 }

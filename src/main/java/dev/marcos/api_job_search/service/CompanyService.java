@@ -9,6 +9,7 @@ import dev.marcos.api_job_search.exception.ConflictException;
 import dev.marcos.api_job_search.exception.NotFoundException;
 import dev.marcos.api_job_search.mapper.CompanyMapper;
 import dev.marcos.api_job_search.repository.CompanyRepository;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -38,8 +39,7 @@ public class CompanyService {
     public CompanyResponseDTO update(UUID id, CompanyUpdateRequestDTO dto) {
         User owner = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        Company company = companyRepository.findByIdAndOwnerId(id, owner.getId())
-                .orElseThrow(() -> new NotFoundException("Company not found or you are not the owner"));
+        Company company = findByIdAndOwnerId(id, owner.getId());
 
         companyMapper.updateCompanyFromDto(dto, company);
 
@@ -56,5 +56,10 @@ public class CompanyService {
                 .orElseThrow(() -> new NotFoundException("Company not found with id: " + id));
 
         return companyMapper.toDTO(company);
+    }
+
+    public Company findByIdAndOwnerId(UUID id, UUID ownerId) {
+        return companyRepository.findByIdAndOwnerId(id, ownerId)
+                .orElseThrow(() -> new NotFoundException("Company not found or you are not the owner"));
     }
 }

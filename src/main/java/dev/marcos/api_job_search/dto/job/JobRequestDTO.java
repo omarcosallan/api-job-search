@@ -1,7 +1,6 @@
 package dev.marcos.api_job_search.dto.job;
 
 import dev.marcos.api_job_search.annotation.ValidModality;
-import dev.marcos.api_job_search.entity.enums.Modality;
 import jakarta.validation.constraints.*;
 
 import java.math.BigDecimal;
@@ -16,7 +15,7 @@ public record JobRequestDTO(
 
         @NotNull(message = "Modality cant be null")
         @ValidModality
-        Modality modality,
+        String modality,
 
         @NotNull(message = "Salary cant be null")
         @DecimalMin(value = "0.01", message = "Salary must be greater than zero.")
@@ -29,7 +28,6 @@ public record JobRequestDTO(
         String location,
 
         @NotNull(message = "Company id cant be null")
-        @NotEmpty(message = "Company id cant be null")
         UUID companyId
 ) {
 }
