@@ -76,4 +76,13 @@ public class JobService {
 
         return jobMapper.toDTO(savedJob);
     }
+
+    public void delete(UUID id) {
+        Job job = jobRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Job not found with id: " + id));
+
+        job.setActive(false);
+
+        jobRepository.save(job);
+    }
 }

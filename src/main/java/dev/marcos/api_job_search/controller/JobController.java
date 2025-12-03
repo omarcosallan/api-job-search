@@ -48,4 +48,10 @@ public class JobController {
     public ResponseEntity<JobResponseDTO> update(@PathVariable UUID id, @RequestBody JobUpdateRequestDTO dto) {
         return ResponseEntity.ok(jobService.update(id, dto));
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<JobResponseDTO> delete(@PathVariable UUID id) {
+        jobService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }
