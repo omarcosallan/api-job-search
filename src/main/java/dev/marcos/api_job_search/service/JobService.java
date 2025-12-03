@@ -2,6 +2,7 @@ package dev.marcos.api_job_search.service;
 
 import dev.marcos.api_job_search.dto.job.JobRequestDTO;
 import dev.marcos.api_job_search.dto.job.JobResponseDTO;
+import dev.marcos.api_job_search.dto.job.JobUpdateRequestDTO;
 import dev.marcos.api_job_search.entity.Company;
 import dev.marcos.api_job_search.entity.Job;
 import dev.marcos.api_job_search.entity.User;
@@ -63,5 +64,16 @@ public class JobService {
     public JobResponseDTO findById(UUID id) {
         return jobMapper.toDTO(jobRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Job not found with id: " + id)));
+    }
+
+    public JobResponseDTO update(UUID id, JobUpdateRequestDTO dto) {
+        Job job = jobRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Job not found with id: " + id));
+
+        jobMapper.updateJobFromDto(dto, job);
+
+        Job savedJob = jobRepository.save(job);
+
+        return jobMapper.toDTO(savedJob);
     }
 }

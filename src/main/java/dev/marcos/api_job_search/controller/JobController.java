@@ -2,6 +2,7 @@ package dev.marcos.api_job_search.controller;
 
 import dev.marcos.api_job_search.dto.job.JobRequestDTO;
 import dev.marcos.api_job_search.dto.job.JobResponseDTO;
+import dev.marcos.api_job_search.dto.job.JobUpdateRequestDTO;
 import dev.marcos.api_job_search.entity.enums.Modality;
 import dev.marcos.api_job_search.service.JobService;
 import jakarta.validation.Valid;
@@ -41,5 +42,10 @@ public class JobController {
     @GetMapping("/{id}")
     public ResponseEntity<JobResponseDTO> findById(@PathVariable UUID id) {
         return ResponseEntity.ok(jobService.findById(id));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<JobResponseDTO> update(@PathVariable UUID id, @RequestBody JobUpdateRequestDTO dto) {
+        return ResponseEntity.ok(jobService.update(id, dto));
     }
 }
