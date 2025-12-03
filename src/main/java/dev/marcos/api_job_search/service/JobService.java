@@ -6,6 +6,7 @@ import dev.marcos.api_job_search.entity.Company;
 import dev.marcos.api_job_search.entity.Job;
 import dev.marcos.api_job_search.entity.User;
 import dev.marcos.api_job_search.entity.enums.Modality;
+import dev.marcos.api_job_search.exception.NotFoundException;
 import dev.marcos.api_job_search.mapper.JobMapper;
 import dev.marcos.api_job_search.repository.JobRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static dev.marcos.api_job_search.repository.specs.JobSpec.create;
@@ -56,5 +58,10 @@ public class JobService {
 
         return jobRepository.findAll(specs, pageable).stream()
                 .map(jobMapper::toDTO).collect(Collectors.toList());
+    }
+
+    public JobResponseDTO findById(UUID id) {
+        return jobMapper.toDTO(jobRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Job not found with id: " + id)));
     }
 }

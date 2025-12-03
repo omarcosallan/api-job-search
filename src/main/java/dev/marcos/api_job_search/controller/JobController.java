@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/v1/api/jobs")
@@ -35,5 +36,10 @@ public class JobController {
             @RequestParam(required = false) BigDecimal minSalary
     ) {
         return ResponseEntity.ok(jobService.findAll(page, size, title, modality, active, minSalary));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<JobResponseDTO> findById(@PathVariable UUID id) {
+        return ResponseEntity.ok(jobService.findById(id));
     }
 }
