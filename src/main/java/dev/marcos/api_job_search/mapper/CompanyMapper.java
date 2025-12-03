@@ -6,7 +6,6 @@ import dev.marcos.api_job_search.dto.company.CompanyUpdateRequestDTO;
 import dev.marcos.api_job_search.dto.company.CompanyWithJobsResponseDTO;
 import dev.marcos.api_job_search.entity.Company;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 

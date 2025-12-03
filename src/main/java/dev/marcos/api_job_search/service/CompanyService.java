@@ -5,13 +5,11 @@ import dev.marcos.api_job_search.dto.company.CompanyResponseDTO;
 import dev.marcos.api_job_search.dto.company.CompanyUpdateRequestDTO;
 import dev.marcos.api_job_search.dto.company.CompanyWithJobsResponseDTO;
 import dev.marcos.api_job_search.entity.Company;
-import dev.marcos.api_job_search.entity.Job;
 import dev.marcos.api_job_search.entity.User;
 import dev.marcos.api_job_search.exception.ConflictException;
 import dev.marcos.api_job_search.exception.NotFoundException;
 import dev.marcos.api_job_search.mapper.CompanyMapper;
 import dev.marcos.api_job_search.repository.CompanyRepository;
-import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -27,8 +25,7 @@ public class CompanyService {
     private final CompanyMapper companyMapper;
 
     public CompanyResponseDTO create(CompanyRequestDTO dto) {
-        User owner = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (companyRepository.existsByOwnerId(owner.getId())) {
+        if (companyRepository.existsByOwnerId(dto.ownerId())) {
             throw new ConflictException("You are already linked to another company.");
         }
 
@@ -39,9 +36,7 @@ public class CompanyService {
     }
 
     public CompanyResponseDTO update(UUID id, CompanyUpdateRequestDTO dto) {
-        User owner = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        Company company = findByIdAndOwnerId(id, owner.getId());
+        Company company = getById(id);
 
         companyMapper.updateCompanyFromDto(dto, company);
 
@@ -54,15 +49,13 @@ public class CompanyService {
     }
 
     public CompanyResponseDTO findById(UUID id) {
-        Company company = companyRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Company not found with id: " + id));
-
+        Company company = getById(id);
         return companyMapper.toDTO(company);
     }
 
-    public Company findByIdAndOwnerId(UUID id, UUID ownerId) {
-        return companyRepository.findByIdAndOwnerId(id, ownerId)
-                .orElseThrow(() -> new NotFoundException("Company not found or you are not the owner"));
+    public Company getById(UUID id) {
+        return companyRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Company not found with id: " + id));
     }
 
     public CompanyWithJobsResponseDTO findJobsByCompanyId(UUID id) {

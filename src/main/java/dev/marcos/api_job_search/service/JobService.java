@@ -5,7 +5,6 @@ import dev.marcos.api_job_search.dto.job.JobResponseDTO;
 import dev.marcos.api_job_search.dto.job.JobUpdateRequestDTO;
 import dev.marcos.api_job_search.entity.Company;
 import dev.marcos.api_job_search.entity.Job;
-import dev.marcos.api_job_search.entity.User;
 import dev.marcos.api_job_search.entity.enums.Modality;
 import dev.marcos.api_job_search.exception.NotFoundException;
 import dev.marcos.api_job_search.mapper.JobMapper;
@@ -14,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -33,9 +31,7 @@ public class JobService {
     private final CompanyService companyService;
 
     public JobResponseDTO save(JobRequestDTO dto) {
-        User owner = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        Company company = companyService.findByIdAndOwnerId(dto.companyId(), owner.getId());
+        Company company = companyService.getById(dto.companyId());
 
         Job job = jobMapper.toEntity(dto);
         job.setCompany(company);
