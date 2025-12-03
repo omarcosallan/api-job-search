@@ -3,7 +3,9 @@ package dev.marcos.api_job_search.service;
 import dev.marcos.api_job_search.dto.company.CompanyRequestDTO;
 import dev.marcos.api_job_search.dto.company.CompanyResponseDTO;
 import dev.marcos.api_job_search.dto.company.CompanyUpdateRequestDTO;
+import dev.marcos.api_job_search.dto.company.CompanyWithJobsResponseDTO;
 import dev.marcos.api_job_search.entity.Company;
+import dev.marcos.api_job_search.entity.Job;
 import dev.marcos.api_job_search.entity.User;
 import dev.marcos.api_job_search.exception.ConflictException;
 import dev.marcos.api_job_search.exception.NotFoundException;
@@ -61,5 +63,12 @@ public class CompanyService {
     public Company findByIdAndOwnerId(UUID id, UUID ownerId) {
         return companyRepository.findByIdAndOwnerId(id, ownerId)
                 .orElseThrow(() -> new NotFoundException("Company not found or you are not the owner"));
+    }
+
+    public CompanyWithJobsResponseDTO findJobsByCompanyId(UUID id) {
+        Company company = companyRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Company not found with id: " + id));
+
+        return companyMapper.toDTOWithJobs(company);
     }
 }

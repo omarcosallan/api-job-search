@@ -3,6 +3,7 @@ package dev.marcos.api_job_search.controller;
 import dev.marcos.api_job_search.dto.company.CompanyRequestDTO;
 import dev.marcos.api_job_search.dto.company.CompanyResponseDTO;
 import dev.marcos.api_job_search.dto.company.CompanyUpdateRequestDTO;
+import dev.marcos.api_job_search.dto.company.CompanyWithJobsResponseDTO;
 import dev.marcos.api_job_search.service.CompanyService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -38,5 +39,10 @@ public class CompanyController {
     @GetMapping("/{id}")
     public ResponseEntity<CompanyResponseDTO> findById(@PathVariable UUID id) {
         return ResponseEntity.ok(companyService.findById(id));
+    }
+
+    @GetMapping("/{id}/jobs")
+    public ResponseEntity<CompanyWithJobsResponseDTO> findJobsByCompanyId(@PathVariable UUID id) {
+        return ResponseEntity.ok(companyService.findJobsByCompanyId(id));
     }
 }

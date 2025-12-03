@@ -44,18 +44,19 @@ O sistema ajudará a encontrar e propagar informações mais facilmente sobre va
 ### 🌐 2. Endpoints REST
 
 #### Autenticação e Usuários
-| Método | Endpoint              | Descrição                             |
-|---------|-----------------------|---------------------------------------|
-| **POST** | `/auth/login`         | Autenticar usuário (retorna JWT token) |
-| **POST** | `/auth/register` | Registrar-se              |
+| Método   | Endpoint         | Descrição                              |
+|----------|------------------|----------------------------------------|
+| **POST** | `/auth/login`    | Autenticar usuário (retorna JWT token) |
+| **POST** | `/auth/register` | Registrar-se                           |
 
 #### Company
-| Método     | Endpoint          | Descrição                                                 |
-|------------|-------------------|-----------------------------------------------------------|
-| **POST**   | `/companies`      | Criar nova compania (apenas usuário logado)               |
-| **GET**    | `/companies`      | Listar todos as companias                                 |
-| **GET**    | `/companies/{id}` | Listar compania por id                                    |
-| **PUT**    | `/companies/{id}` | Atualizar compania (apenas usuário logado e proprietário) |
+| Método   | Endpoint               | Descrição                                                 |
+|----------|------------------------|-----------------------------------------------------------|
+| **POST** | `/companies`           | Criar nova compania (apenas usuário logado)               |
+| **GET**  | `/companies`           | Listar todos as companias                                 |
+| **GET**  | `/companies/{id}`      | Listar compania por id                                    |
+| **GET**  | `/companies/{id}/jobs` | Listar todas as vagas por compania                        |
+| **PUT**  | `/companies/{id}`      | Atualizar compania (apenas usuário logado e proprietário) |
 
 #### Jobs
 | Método     | Endpoint                                            | Descrição                                             |
@@ -63,7 +64,6 @@ O sistema ajudará a encontrar e propagar informações mais facilmente sobre va
 | **POST**   | `/jobs`                                             | Criar nova vaga (apenas usuário logado)               |
 | **GET**    | `/jobs?title={}&modality={}&active={}&minSalary={}` | Listar todas as vagas (filtros e paginação)           |
 | **GET**    | `/jobs/{id}`                                        | Listar vaga por id                                    |
-| **GET**    | `/jobs/company/{companyId}`                         | Listar todas as vagas por compania                    |
 | **PUT**    | `/jobs/{id}`                                        | Atualizar vaga (apenas usuário logado e proprietário) |
 | **DELETE** | `/jobs/{id}`                                        | Inativar vaga (apenas usuário logado e proprietário)  |
 ---
