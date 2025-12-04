@@ -5,13 +5,11 @@ import dev.marcos.api_job_search.dto.company.CompanyResponseDTO;
 import dev.marcos.api_job_search.dto.company.CompanyUpdateRequestDTO;
 import dev.marcos.api_job_search.dto.company.CompanyWithJobsResponseDTO;
 import dev.marcos.api_job_search.entity.Company;
-import dev.marcos.api_job_search.entity.User;
 import dev.marcos.api_job_search.exception.ConflictException;
 import dev.marcos.api_job_search.exception.NotFoundException;
 import dev.marcos.api_job_search.mapper.CompanyMapper;
 import dev.marcos.api_job_search.repository.CompanyRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
