@@ -17,7 +17,6 @@ O sistema ajudará a encontrar e propagar informações mais facilmente sobre va
 | `name`      | String      | **Obrigatório**    |
 | `email`     | String      | **Obrigatório**    |
 | `password`  | String      | **Obrigatório**    |
-| `companyId` | FK(Company) | Compania associada |
 
 #### `Company`
 | Campo         | Tipo   | Descrição       |
@@ -26,6 +25,7 @@ O sistema ajudará a encontrar e propagar informações mais facilmente sobre va
 | `name`        | String | **Obrigatório** |
 | `website`     | String | **Obrigatório** |
 | `description` | String | Opcional        |
+| `ownerId`     | FK(User) | User associado  |
 
 #### `Job`
 | Campo         | Tipo        | Descrição                  |
